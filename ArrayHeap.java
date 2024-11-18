@@ -125,17 +125,15 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        int childIndex = 0;
-        if (this.size % 2 == 1) {
-            childIndex = leftIndex(index);
-        } else {
-            childIndex = rightIndex(index);
-        }
-
-        if (childIndex >= this.size) {
+        int childIndex = leftIndex(index);
+        if (childIndex > this.size) {
             return;
         }
 
+        if (childIndex + 1 <= this.size && getNode(childIndex + 1).myPriority < getNode(childIndex).myPriority) {
+            childIndex++;
+        }
+        
         if (getNode(index).myPriority > getNode(childIndex).myPriority) {
             swap(index, childIndex);
             sink(childIndex);
@@ -406,6 +404,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         pq.insert("c", 3);
         pq.insert("d", 4);
         String removed = pq.removeMin();
+        System.out.println(pq);
         assertEquals("a", removed);
         assertEquals(9, pq.size());
         assertEquals("b", pq.contents[1].myItem);
