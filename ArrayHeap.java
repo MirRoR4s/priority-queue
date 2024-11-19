@@ -150,9 +150,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             resize(contents.length * 2);
         }
 
-        size = size + 1;
-        this.contents[size] = this.new Node(item, priority);
-        this.swim(size);
+        contents[++size] = new Node(item, priority);
+        swim(size);
     }
 
     /**
@@ -213,8 +212,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 node.myPriority = priority;
                 if (oldPriority > priority)
                     swim(i);
-                else
+                else if (oldPriority < priority) {
                     sink(i);
+                }
             }
         }
         return;
@@ -448,5 +448,42 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             i += 1;
         }
     }
+
+    @Test
+    public void testChangePriority() {
+        ArrayHeap<String> pq = new ArrayHeap<>();
+        
+        // 插入一些元素到堆中
+        pq.insert("a", 5);
+        pq.insert("b", 9);
+        pq.insert("c", 3);
+        pq.insert("d", 7);
+        
+        // 检查初始堆顶元素应该是优先级最小的元素 "c"
+        assertEquals("c", pq.peek());
+    
+        // 改变 "b" 的优先级，使它比当前堆顶 "c" 更低
+        pq.changePriority("b", 1);
+        
+        // 检查堆顶元素是否更新为优先级最低的 "b"
+        assertEquals("b", pq.peek());
+        
+        // 验证堆结构是否正确
+        assertEquals("b", pq.contents[1].myItem);
+        assertEquals("a", pq.contents[2].myItem);
+        assertEquals("c", pq.contents[3].myItem);
+        assertEquals("d", pq.contents[4].myItem);
+    
+        // 再次改变优先级，将 "a" 的优先级设为最高
+        pq.changePriority("a", 10);
+    
+        // 检查堆顶仍然是优先级最低的 "b"，验证结构是否稳定
+        assertEquals("b", pq.peek());
+        assertEquals("b", pq.contents[1].myItem);
+        assertEquals("d", pq.contents[2].myItem);
+        assertEquals("c", pq.contents[3].myItem);
+        assertEquals("a", pq.contents[4].myItem);
+    }
+    
 
 }
