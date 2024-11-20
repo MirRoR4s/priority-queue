@@ -2,8 +2,6 @@
 
 A priority queues implementation based on binary heap.
 
-Note: There are some bugs in the `changePriority` method.
-
 ## prior knowledge
 
 - [slides](https://docs.google.com/presentation/d/1ySYTxnvoHJc7_2U0L90WH3kx0toWA4vpNiIR2r1vqKU)
