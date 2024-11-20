@@ -1,6 +1,6 @@
-# priority-queues
+# priority-queue
 
-A priority queues implementation based on binary heap.
+A priority queue implementation based on binary heap.
 
 ## prior knowledge
 
